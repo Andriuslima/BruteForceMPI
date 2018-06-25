@@ -14,7 +14,7 @@ if rank == 0:
     comm.send(data, dest=1, tag=11)
 elif rank == 1:
     data = comm.recv(source=0, tag=11)
-    print("I'm ranked 1 and I recieved this data: " + data)
+    print("I'm ranked 1 and I recieved this data: " + str(data))
 
 """
 # non blocking communation
