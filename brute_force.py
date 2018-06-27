@@ -1,5 +1,4 @@
 from mpi4py import MPI
-import numpy
 
 # EXECUTE = mpiexec -n 3 python brute_force.py
 
@@ -8,6 +7,20 @@ rank = comm.Get_rank()
 
 ### MPI TESTS ###
 
+# non blocking communation
+if rank == 0:
+    data = {'a': 7, 'b': 3.14}
+    print("Sending data from 0")
+    req = comm.isend(data, dest=1, tag=11)
+    req.wait()
+    print("Data send from 0")
+elif rank == 1:
+    print("Receiving data on 1")
+    req = comm.irecv(source=0, tag=11)
+    data = req.wait()
+    print("Data received on 0:" + str(data))
+
+"""
 ## Point-to-point communation. Sending data from process 0 to process 1
 if rank == 0:
     data = {'a': 7, 'b': 3.14}
@@ -15,16 +28,6 @@ if rank == 0:
 elif rank == 1:
     data = comm.recv(source=0, tag=11)
     print("I'm ranked 1 and I recieved this data: " + str(data))
-
-"""
-# non blocking communation
-if rank == 0:
-    data = {'a': 7, 'b': 3.14}
-    req = comm.isend(data, dest=1, tag=11)
-    req.wait()
-elif rank == 1:
-    req = comm.irecv(source=0, tag=11)
-    data = req.wait()
 
 
 # NumPy array --> fast way
