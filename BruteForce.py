@@ -1,26 +1,21 @@
-import requests
-import sys
+from mpi4py import MPI
+import math
 
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+cores = comm.Get_size()
+SENHA = "9999"
 
-G_usuario = "Teste"
-G_senha = "5567"
+words = [w.strip() for w in open("wordlist.txt", "r").readlines()]
+n = len(words)
+m = math.ceil(n/cores)
 
+if rank == cores-1: search_range = range(m*rank, n)
+else: search_range = range( m*rank, (m*rank) + m )
 
-def brute(usuario, senha):
-    if (G_usuario == usuario):
-        if (G_senha == senha):
-            print("Senha encontrada: ", senha)
-            return True
-        else:
-            #print("Tentantiva falha: ", senha)
-            return False   
-
-
-def main():
-	words = [w.strip() for w in open("wordlist.txt", "rb").readlines()] 
-	for password in words:
-		brute(G_usuario,password)
-
-
-if __name__ == '__main__':
-	main()
+data = {'PasswordFound': False, 'Password': ''}
+for i in search_range:
+    if SENHA == words[i]:
+        data['PasswordFound'] = True
+        data['Password'] = words[i]
+        print("THREAD " + str(rank) + ": found password")
