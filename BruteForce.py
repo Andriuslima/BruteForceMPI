@@ -8,7 +8,6 @@ SENHA = "9999"
 
 if rank == 0:
     i = 1
-    j = 0
     # Fica recebendo mensagens das threads para saber qual achou a senha
     while True:
         recv = comm.recv(source=i)
@@ -16,7 +15,6 @@ if rank == 0:
 
         if i < size-1: i += 1
         else: i = 1
-        j += 1
 
     print("Thread " + str(i) + " found password")
 
