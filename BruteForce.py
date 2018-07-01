@@ -1,10 +1,11 @@
 from mpi4py import MPI
 import math
-
+import time
+start = time.time()
 comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size = comm.Get_size()
-SENHA = "9999"
+SENHA = "999999"
 
 if rank == 0:
     i = 1
@@ -21,7 +22,7 @@ if rank == 0:
 else:
     size -= 1
     rank -= 1
-    words = [w.strip() for w in open("wordlist.txt", "r").readlines()]
+    words = [w.strip() for w in open("wordlist3.txt", "r").readlines()]
     n = len(words)
     m = math.ceil(n / size)
 
@@ -34,6 +35,10 @@ else:
             data['PasswordFound'] = True
             data['Password'] = words[i]
             comm.send(data, dest=0)
+
+            tempo_execucao = time.time() - start
+            print("Tempo de Execução: ", tempo_execucao)
+
             break
 
         comm.send(data, dest=0)

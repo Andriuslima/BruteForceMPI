@@ -2,9 +2,10 @@
 #import sys
 import time
 
-G_usuario = "Teste"
-G_senha = "99999999"
 start = time.time()
+G_usuario = "Teste"
+G_senha = "000001"
+
 
 
 def brute(usuario, senha):
@@ -21,15 +22,18 @@ def brute(usuario, senha):
             return False   
 
 def main():
-    #words = [w.strip() for w in open("wordlist4.txt", "r").readlines()]
+    words = [w.strip() for w in open("wordlist3.txt", "r").readlines()]
 
+    #number_lines = sum(1 for line in open("wordlist4.txt"))
+    #print("linhas: ",number_lines)
 
-    with open("wordlist4.txt") as infile:
-        for password in infile:
-            password = password.strip()
-            #brute(G_usuario,password)
-            if brute(G_usuario,password) == True:
-                break
+    #with open("wordlist4.txt") as infile:   //Usar fora para 8 digitos, for dentro do while
+    for password in words:
+
+        # password = password.strip()   //Caso use While
+
+        if brute(G_usuario,password) == True:
+            break
 
 
 if __name__ == '__main__':
