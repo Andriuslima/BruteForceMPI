@@ -4,7 +4,7 @@ import time
 
 start = time.time()
 G_usuario = "Teste"
-G_senha = "000001"
+G_senha = "999999"
 
 
 
